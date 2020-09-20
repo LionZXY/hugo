@@ -20,19 +20,16 @@ import java.util.concurrent.TimeUnit;
 public class Hugo {
   private static volatile boolean enabled = true;
 
-  @Pointcut("within(@hugo.weaving.DebugLog *)")
-  public void withinAnnotatedClass() {}
-
-  @Pointcut("execution(!synthetic * *(..)) && withinAnnotatedClass()")
+  @Pointcut("execution(!synthetic * *(..))")
   public void methodInsideAnnotatedType() {}
 
-  @Pointcut("execution(!synthetic *.new(..)) && withinAnnotatedClass()")
+  @Pointcut("execution(!synthetic *.new(..))")
   public void constructorInsideAnnotatedType() {}
 
-  @Pointcut("execution(@hugo.weaving.DebugLog * *(..)) || methodInsideAnnotatedType()")
+  @Pointcut("execution(* *(..)) || methodInsideAnnotatedType()")
   public void method() {}
 
-  @Pointcut("execution(@hugo.weaving.DebugLog *.new(..)) || constructorInsideAnnotatedType()")
+  @Pointcut("execution(*.new(..)) || constructorInsideAnnotatedType()")
   public void constructor() {}
 
   public static void setEnabled(boolean enabled) {
